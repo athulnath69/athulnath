@@ -1,0 +1,42 @@
+
+//Author-- Athul Nath project on 26052023
+
+//Used Selenium to automate chrome driver 
+const { Builder } = require('selenium-webdriver');
+const chrome = require('selenium-webdriver/chrome');
+
+let options = new chrome.Options();
+options.addArguments('--lang=en-US'); // Set language to English
+
+(async function() {
+    let driver = new Builder()
+        .forBrowser('chrome')
+        .setChromeOptions(options)
+        .build();
+       // website address below - kw,bh,sa 
+    try {
+        const addresses = [
+            'https://subscribe.stctv.com/kw-en',
+            'https://subscribe.stctv.com/bh-en',
+            'https://subscribe.stctv.com/sa-en'
+        ];
+
+        const delaySeconds = 4; // Delay in seconds between each address -- Website loading delay
+
+        for (let i = 0; i < addresses.length; i++) {
+            const address = addresses[i];
+
+            await driver.get(address);
+
+            //  Code here to perform operations on the current address
+
+            if (i < addresses.length - 1) {
+                await driver.sleep(delaySeconds * 1000); // Convert delay to milliseconds
+            }
+        }
+    } catch (error) {
+        console.log('An error occurred:', error);
+    } finally {
+        await driver.quit();
+    }
+})();
